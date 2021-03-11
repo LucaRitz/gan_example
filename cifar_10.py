@@ -56,7 +56,7 @@ EPOCHS = 50
 noise_dim = 100
 num_examples_to_generate = 1
 seed = tf.random.normal([num_examples_to_generate, noise_dim])
-cmap=''
+cmap=None
 
 (train_images, _), (_, _) = tf.keras.datasets.cifar10.load_data()
 train_images = train_images.astype('float32')
@@ -65,6 +65,4 @@ train_images = (train_images - 127.5) / 127.5
 
 #train_images = (train_images - 127.5) / 127.5  # Normalize the images to [-1, 1]
 # Batch and shuffle the data
-print('Slices')
 train_dataset = tf.data.Dataset.from_tensor_slices(train_images).shuffle(BUFFER_SIZE).batch(BATCH_SIZE)
-print('slices ok')

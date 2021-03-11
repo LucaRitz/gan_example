@@ -25,7 +25,6 @@ def generate_and_save_image(generator, file_name, test_input, figures, cmap):
   plt.figure(figsize=(figsize, figsize))
 
   for i in range(predictions.shape[0]):
-      print(predictions[0, :, :])
       plt.subplot(figsize, figsize, i+1)
       plt.imshow((predictions[i, :, :] + 1) / 2, cmap=cmap)
       plt.axis('off')
@@ -44,7 +43,7 @@ def build_checkpoint(gan) -> tf.train.Checkpoint:
                                      discriminator=gan.discriminator)
 
 
-def generate(output_dir: str, gan, checkpoint_prefix: str, do_train=False):
+def generate(output_dir: str, gan, checkpoint_dir: str, checkpoint_prefix: str, do_train=False):
     checkpoint = build_checkpoint(gan)
 
     if do_train:
@@ -88,5 +87,5 @@ def generate(output_dir: str, gan, checkpoint_prefix: str, do_train=False):
 
         train(gan.train_dataset, gan.EPOCHS, checkpoint, checkpoint_prefix, output_dir)
     else:
-        load(checkpoint, checkpoint_prefix)
+        load(checkpoint, checkpoint_dir)
     generate_and_save_image(gan.generator, output_dir + 'final.png', gan.seed, gan.num_examples_to_generate, gan.cmap)
